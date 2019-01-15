@@ -6,7 +6,7 @@
 // @match      http://*.movescount.com/summary
 // @include    htt*://*.movescount.com/summary
 // @require http://code.jquery.com/jquery-2.1.4.min.js
-// @require https://raw.github.com/lodash/lodash/3.10.0/lodash.min.js
+// @require https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js
 // ==/UserScript==
 (function() {
 "use strict";
@@ -56,17 +56,17 @@ var formats = {
 setInterval(function() {
     var toolsItem = $('a[data-action="addPlannedMove"]');
     console.warn(toolsItem);
-    var sentinel = toolsItem.closest('ul').children('li.batchExporter');
+    var sentinel = toolsItem.closest('div').parent().children('div.batchExporter');
     if (!sentinel || sentinel.length === 0) {
         _.forOwn(formats, function(format, name) {
-            var li = $('<li class="batchExporter"></li>');
+            var div = $('<div class="text--center batchExporter"></div>');
             var link = $('<a style="text-align: left;">Export selected as ' + name + '.</a>');
             link.click(function() {
                 exportMoves(format);
                 return false;
             });
-            li.append(link);
-            toolsItem.closest('li').before(li);
+            div.append(link);
+            toolsItem.closest('div').parent().append(div);
         });
     }
 }, 1000);
